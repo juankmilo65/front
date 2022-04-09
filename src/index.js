@@ -1,19 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { store } from './app/store';
+import React, {useEffect} from 'react';
 import { Provider } from 'react-redux';
+import * as ReactDOMClient from 'react-dom/client';
 import * as serviceWorker from './serviceWorker';
+import 'antd/dist/antd.min.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import App from './app/App';
+import { configureStore } from './app/store/configureStore';
+
+const storeConfigured = configureStore();
+
+function AppWithCallbackAfterRender() {
+  useEffect(() => {
+    console.log('App rendered successfully');
+  });
+
+  return (
+    <React.StrictMode>
+      <Provider store={storeConfigured}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  )
+}
+
+const root = ReactDOMClient.createRoot(document.getElementById('root'));
+root.render(<AppWithCallbackAfterRender/>);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
