@@ -1,8 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import Navbar from '../components/layout/Navbar';
-import {WrapLayaout} from '../components/layout/Navbar.styles'
+import Layaout from '../components/layout/Layaout';
+import {WrapLayaout} from '../components/layout/Layaout.styles'
 
 
 function App() {
@@ -13,9 +13,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      < >
-        <Navbar />
-      </>
+      <Layaout />
     </BrowserRouter>
   );
 }
