@@ -27,6 +27,7 @@ const { SubMenu } = Menu;
 function Layaout() {
     const rootSubmenuKeys = ['sub1'];
     const [collapsed, setCollapsed] = useState(false);
+    const [WithLayout, setWithLayout] = useState({})
     const [openKeys, setOpenKeys] = useState();
     const [user, setUser] = useState('test');
 
@@ -42,50 +43,38 @@ function Layaout() {
     const toggleCollapsed = () => setCollapsed(!collapsed);
     
     return (
-        <Layout hasSider>
+    <Layout style={{ minHeight: '100vh' }}>
     <Sider
-    collapsible collapsed={collapsed} onCollapse={toggleCollapsed}
-      style={{
+        collapsible collapsed={collapsed} onCollapse={toggleCollapsed}
+        style={{
         overflow: 'auto',
         height: '100vh',
-        position: 'fixed',
         left: 0,
         top: 0,
         bottom: 0,
+        position: 'sticky',      
+        background: 'linear-gradient(to right, #2a0845, #59359D)'
       }}
     >
       <Logo/>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          nav 1
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          nav 2
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          nav 3
-        </Menu.Item>
-        <Menu.Item key="4" icon={<BarChartOutlined />}>
-          nav 4
-        </Menu.Item>
-        <Menu.Item key="5" icon={<CloudOutlined />}>
-          nav 5
-        </Menu.Item>
-        <Menu.Item key="6" icon={<AppstoreOutlined />}>
-          nav 6
-        </Menu.Item>
-        <Menu.Item key="7" icon={<TeamOutlined />}>
-          nav 7
-        </Menu.Item>
-        <Menu.Item key="8" icon={<ShopOutlined />}>
-          nav 8
-        </Menu.Item>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} style={{  background: 'linear-gradient(to right, #2a0845, #59359D)'}}>
+        <Menu.Item key="1" icon={<DesktopOutlined />}>Dashboard</Menu.Item>
+        <Menu.Item key="2" icon={<TeamOutlined />}> Mis Denarios </Menu.Item>
+        <Menu.Item key="3" icon={<PieChartOutlined />}> Estadisticas </Menu.Item>
+        <SubMenu key="sub1" icon={<ContainerOutlined />} title="Reportes">
+            <Menu.Item key="5">Mis Denarios</Menu.Item>
+            <Menu.Item key="6">Donaciones</Menu.Item>     
+        </SubMenu>
+        <Menu.Item key="7" icon={<MailOutlined />} > Email  </Menu.Item>
       </Menu>
     </Sider>
-    <Layout className="site-layout" style={{ marginLeft: 200 }}>
-      <Header className="site-layout-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-        <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+    <Layout className="site-layout" style={{background: '#e4d7ea'}}>
+      <Header className="site-layout-background" style={{ display:'flex', justifyContent: 'right', position: 'sticky', top:0, color:'white', padding: 0,  background: 'linear-gradient(to right, #4C2C89, #2a0845)'}} >
+          <div>Bienvenido {user}</div>
+          <Avatar/>
+      </Header>
+      <Content style={{ margin: '16px 16px 16px', background:'white' }}>
+        <div>
           ...
           <br />
           Really
@@ -183,7 +172,7 @@ function Layaout() {
           content
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center', color:'white', background: 'linear-gradient(to right, #4C2C89, #2a0845)' }}>Denario Pro ©2022</Footer>
     </Layout>
   </Layout>
         // <WrapLayaout>
@@ -195,22 +184,11 @@ function Layaout() {
         //         inlineCollapsed={collapsed}>
         //         <Logo/>
                 
-        //         <Menu.Item key="1" icon={<DesktopOutlined />}>
-        //                     Dashboard
-        //         </Menu.Item>
-        //         <Menu.Item key="2" icon={<TeamOutlined />}>
-        //                     Mis Denarios
-        //         </Menu.Item>
-        //         <Menu.Item key="3" icon={<PieChartOutlined />}>
-        //                     Estadisticas
-        //         </Menu.Item>
-        //         <SubMenu key="sub1" icon={<ContainerOutlined />} title="Reportes">
-        //             <Menu.Item key="5">Mis Denarios</Menu.Item>
-        //             <Menu.Item key="6">Donaciones</Menu.Item>     
-        //         </SubMenu>
-        //         <Menu.Item key="7" icon={<MailOutlined />} >
-        //               Email     
-        //         </Menu.Item>
+        
+        //         
+       
+        
+       
         //     </Menu>
         //     <WrapLayaoutContent>
         //         <PageHeader

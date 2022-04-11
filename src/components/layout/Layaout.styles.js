@@ -20,10 +20,12 @@ const Logo = styled.img.attrs({
 const Avatar = styled.img.attrs({
   src: `${logo}`
 })`
-  display: block;
-  margin-left: 22px;
-  width: 50%;
-  margin-right: -37rem;
+display: block;
+margin-left: 14px;
+width: 2%;
+height: 50%;
+margin-right: 14px;
+margin-top: 14px;
 `;
 
 const WrapLayaoutContent = styled.div`

@@ -21,3 +21,7 @@
 .ant-layout{
     background: #f5f1fd;
 }
+
+.site-layout .site-layout-background {
+    background: #fff;
+  }
