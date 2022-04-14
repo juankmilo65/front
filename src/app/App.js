@@ -1,7 +1,8 @@
-import React, { useEffect }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Layaout from '../components/layout/Layaout';
+import Login from '../components/login/Login'
 
 function App() {
 
@@ -9,9 +10,14 @@ function App() {
  
   },[]);
 
+  const [token ] = useState(false);
+
   return (
-    <Router>
-      <Layaout />
+    <Router> 
+      {token ?
+        (<Layaout />) :
+        (<Login/>)
+      }
     </Router>
   );
 }

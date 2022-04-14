@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import { Table, Badge, Menu, Dropdown, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
