@@ -1,15 +1,35 @@
-import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, {useEffect} from 'react'
+import { bindActionCreators  } from 'redux'
+import { useSelector, useDispatch} from 'react-redux'
+import { Form, Input, Button, Checkbox, Tag } from 'antd';
+import {PoweroffOutlined, CloseCircleOutlined} from '@ant-design/icons';
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
+import loginActions from './logingActions'
 
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
+
 
 function Login() {
+
+  const state = useSelector((state)=> state.login)
+  const dispapatch = useDispatch();
+
+  const {login} = bindActionCreators(loginActions, dispapatch)
+
+  useEffect(() => {
+    if(state.token !== '')
+    {
+      debugger
+    }
+  }, [state.token])
+  
+
+  const onFinish =  (values) => {
+     login(values);
+  };
+
+  const onFinishFailed = (errorInfo) => {debugger
+      console.log('Failed:', errorInfo);
+  };
     
   return (
     <Form
@@ -22,9 +42,9 @@ function Login() {
       autoComplete="off"
     >
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Please input your email!' }]}
       >
         <Input />
       </Form.Item>
@@ -42,10 +62,16 @@ function Login() {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={state.isLoading} >
           Submit
         </Button>
       </Form.Item>
+      {state.errorMessage === '' ? 
+        null : 
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Tag icon={<CloseCircleOutlined />} color="error">{state.errorMessage}</Tag>
+        </Form.Item>
+      }
     </Form>
   )
 }

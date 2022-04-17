@@ -1,5 +1,3 @@
-import jwtDecode from "jwt-decode";
-
 export function clearToken() {
     localStorage.removeItem('id_token');
 }
@@ -7,10 +5,10 @@ export function clearToken() {
 export function getToken() {
     try {
         const token = localStorage.getItem("token");
-        return jwtDecode(token);
+        return token;
     } catch (error) {
         return null;
-    }
+    }   
 }
 
 export function logout() {

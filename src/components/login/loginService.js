@@ -1,10 +1,13 @@
-import axios from "axios";
-import { BASE_URL } from '../../config';
+import {service} from '../../utilities/service'
 
-export function login(data) {
-    return axios.post(`${BASE_URL}/auth`, data);
+
+const servicesApi = {
+    login: (data) => 
+        service()
+        .post('api/security', data)
+        .then(response => response.data)
+        .catch(error => error)
+    
 }
 
-export function register(data) {
-    return axios.post(`${BASE_URL}/users`, data);
-}
+export default servicesApi;

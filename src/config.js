@@ -1,8 +1,8 @@
-const ENV = window.location.host === 'http://localhost:3000' ? 'development' : 'production';
+const ENV = window.location.host === 'localhost:3000' ? 'development' : 'production';
 
 const BASE_URL =
   ENV === 'production'
     ? ''
-    : 'http://localhost:3000';
+    : 'http://127.0.0.1:7777/';
 
 export {BASE_URL}

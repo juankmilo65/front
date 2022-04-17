@@ -1,20 +1,24 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { combineEpics, createEpicMiddleware } from "redux-observable";
+import createSagaMiddleware from 'redux-saga';
+
+import loginReduer from '../../components/login/loginReducer'
+import {rootSaga} from '../../utilities/mergeSagas'
 
 
 export function configureStore() {
-    const rootEpic = combineEpics();
-    const epicMiddleware = createEpicMiddleware();
-    const rootReducer = combineReducers({});
+  const sagaMiddleware = createSagaMiddleware();
+  
+  const rootReducer = combineReducers({
+    login: loginReduer
+  });
+  
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  
+  const store = createStore(
+    rootReducer,
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+    );
 
-    const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-    const store = createStore(
-        rootReducer,
-        composeEnhancers(applyMiddleware(epicMiddleware))
-      );
-
-    epicMiddleware.run(rootEpic);
+    sagaMiddleware.run(rootSaga);
     return store;
 }
