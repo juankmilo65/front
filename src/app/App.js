@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import { useEffect, useState, Suspense }  from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Layaout from '../components/layout/Layaout';
@@ -13,12 +13,14 @@ function App() {
   const [token ] = useState(false);
 
   return (
-    <Router> 
-      {token ?
-        (<Layaout />) :
-        (<Login/>)
-      }
-    </Router>
+    <Suspense fallback={null}>
+       <Router> 
+        {token ?
+          (<Layaout />) :
+          (<Login/>)
+        }
+      </Router>
+    </Suspense>
   );
 }
 

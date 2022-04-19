@@ -5,12 +5,12 @@ import { PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, Tea
 
 import {Logo, Avatar } from './Layaout.styles';
 import './layaout.css'
-
+import Footer from '../footer/Footer'
 import Dashboard from '../dashboard/Dashboard'
 import Users from '../users/Users';
 import Error from '../error/Error'
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const { SubMenu } = Menu;
 
@@ -66,7 +66,7 @@ function Layaout() {
                             <Route path="*" element={<Error/>} />
                         </Routes>
                     </Content>
-                    <Footer style={{ textAlign: 'center', color:'white', background: 'linear-gradient(to right, #4C2C89, #2a0845)' }}>Denario Pro ©2022</Footer>
+                    <Footer/>
                     </Layout>
         </Layout>
     )

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import * as ReactDOMClient from 'react-dom/client';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.min.css'
+import './i18n'
 
 import App from './app/App';
 import { configureStore } from './app/store/configureStore';

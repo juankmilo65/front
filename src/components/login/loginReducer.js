@@ -1,6 +1,7 @@
 import actions from './logingActions'
 
 const initState = {
+    token: '',
     isLoading: false,
     errorMessage: ''
 };
