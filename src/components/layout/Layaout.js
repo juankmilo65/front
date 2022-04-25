@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Routes, Route, Link } from "react-router-dom";
 import { Menu, Layout} from 'antd';
 import { PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, TeamOutlined } from '@ant-design/icons';
@@ -16,8 +17,16 @@ const { SubMenu } = Menu;
 
 function Layaout() {
     const [collapsed, setCollapsed] = useState(false);
-    const [user ] = useState('test');
-
+    const state = useSelector((state)=> state.login)
+    const { userLogged } = state;
+    let userName = '';
+   
+    if(userLogged !== null) {
+        const { user } = userLogged;
+        const { name, lastname } = user;
+        userName = `${name} ${lastname}`;
+    }
+  
     const toggleCollapsed = () => setCollapsed(!collapsed);
 
     return (
@@ -56,7 +65,7 @@ function Layaout() {
                     </Sider>
                     <Layout className="site-layout" style={{background: '#e4d7ea'}}>
                     <Header className="site-layout-background" style={{ zIndex: 1, display:'flex', justifyContent: 'right', position: 'sticky', top:0, color:'white', padding: 0,  background: 'linear-gradient(to right, #4C2C89, #2a0845)'}} >
-                        <div>Bienvenido {user}</div>
+                        <div>Bienvenido {userName}</div>
                         <Avatar/>
                     </Header>
                     <Content style={{ margin: '16px 16px 16px', padding: '25px', background:'white' }}>

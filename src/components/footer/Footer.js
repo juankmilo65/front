@@ -2,7 +2,7 @@ import React, {useEffect}from 'react'
 import { Layout } from 'antd';
 import { useTranslation } from "react-i18next"
 import i18next from 'i18next';
-import { FacebookFilled, TwitterSquareFilled, InstagramFilled} from '@ant-design/icons';
+import { FacebookFilled, TwitterSquareFilled, InstagramFilled } from '@ant-design/icons';
 
 import {LanguagesWrapper} from './Footer.styles'
 
@@ -24,11 +24,11 @@ function Footer() {
                 {t("brand")}
             </div>
             <LanguagesWrapper>
-                <div onClick={()=>i18next.changeLanguage('es')} ><FacebookFilled/> Facebook</div>
-                <div onClick={()=>i18next.changeLanguage('es')} ><TwitterSquareFilled/> Twitter</div>
-                <div onClick={()=>i18next.changeLanguage('es')} ><InstagramFilled/> Instagram</div>
-                <div onClick={()=>i18next.changeLanguage('es')} >{t("spanish")}</div>
-                <div onClick={() => i18next.changeLanguage('en')} >{t("english")}</div>
+                <div onClick={()=> {}} ><FacebookFilled/> Facebook</div>
+                <div onClick={()=> {}} ><TwitterSquareFilled/> Twitter</div>
+                <div onClick={()=> {}} ><InstagramFilled/> Instagram</div>
+                <div onClick={()=>i18n.changeLanguage('es')} >{t("spanish")}</div>
+                <div onClick={() => i18n.changeLanguage('en')} >{t("english")}</div>
             </LanguagesWrapper>
         </Footer>
     )

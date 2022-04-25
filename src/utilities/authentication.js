@@ -1,5 +1,5 @@
 export function clearToken() {
-    localStorage.removeItem('id_token');
+    localStorage.removeItem('token');
 }
 
 export function getToken() {

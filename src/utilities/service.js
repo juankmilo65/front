@@ -9,7 +9,7 @@ function service() {
       baseURL: BASE_URL
     });
 
-    axiosService.defaults.headers.common['Authorization']  = `JWT ${getToken()}`;
+    axiosService.defaults.headers.common['Authorization']  = `${getToken()}`;
     return axiosService;
   }
 

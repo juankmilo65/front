@@ -3,7 +3,8 @@ import actions from './logingActions'
 const initState = {
     token: '',
     isLoading: false,
-    errorMessage: ''
+    errorMessage: '',
+    userLogged: null
 };
 
 export default function reducer(state = initState, action) {
@@ -19,7 +20,7 @@ export default function reducer(state = initState, action) {
             return {
                 ...state,
                 isLoading: false,
-                data: payload,
+                token: payload,
             };
         case actions.LOGIN_ERROR:
             return {
@@ -37,6 +38,16 @@ export default function reducer(state = initState, action) {
                 ...state,
                 data: payload.data,
             };
+        case actions.GET_USER_INFO_BY_EMAIL_SUCCESS:
+            return {
+                ...state,
+                userLogged: payload,
+            }
+        case actions.GET_USER_INFO_BY_EMAIL_ERROR:
+            return {
+                ...state,
+                errorMessage: payload.payload
+            }
         default:
         return state;
     }

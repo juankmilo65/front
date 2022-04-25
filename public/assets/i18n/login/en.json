@@ -2,5 +2,6 @@
     "email": "Email",
     "password": "Password",
     "inputYourMail": "Please, input your email",
-    "inputYourPassword": "Please, input your password"
+    "inputYourPassword": "Please, input your password",
+    "login": "Login"
 }

@@ -9,22 +9,21 @@ import Footer from '../footer/Footer'
 import loginActions from './logingActions'
 import {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo} from './Login.styles'
 
-
 function Login() {
 
-  const {t} = useTranslation(['login', 'common'])
-  const state = useSelector((state)=> state.login)
+   const [form] =  Form.useForm();
+
+  const {t, i18n} = useTranslation(['login', 'common'])
   const dispapatch = useDispatch();
+  const state = useSelector((state)=> state.login)
+  const {login } = bindActionCreators(loginActions, dispapatch)
 
-  const {login} = bindActionCreators(loginActions, dispapatch)
+  useEffect(()  => {
+    if(form.getFieldsError()[0].errors.length > 0 || form.getFieldsError()[1].errors.length > 0 ){
+      form.validateFields()
+    }    
+  }, [form, i18n.language])
 
-  useEffect(() => {
-    if(state.token !== '')
-    {
-      
-    }
-  }, [state.token])
-  
 
   const onFinish =  (values) => {
      login(values);
@@ -42,7 +41,7 @@ function Login() {
         </WrapperLogo>
         <WrapperContentLogin>
           <Form
-            name="basic"
+            form={form}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
@@ -72,7 +71,7 @@ function Login() {
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit" loading={state.isLoading} >
-              {t("save")}
+              {t("login")}
               </Button>
             </Form.Item>
             {state.errorMessage === '' ? 
