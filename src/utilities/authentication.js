@@ -1,16 +1,9 @@
-export function clearToken() {
-    localStorage.removeItem('token');
-}
-
 export function getToken() {
     try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("persist:login").token;
+        debugger
         return token;
     } catch (error) {
         return null;
     }   
-}
-
-export function logout() {
-    localStorage.removeItem("token");
 }

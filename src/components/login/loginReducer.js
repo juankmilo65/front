@@ -1,13 +1,16 @@
 import actions from './logingActions'
+import storage from 'redux-persist/lib/storage';
+import { persistReducer } from 'redux-persist';
+
 
 const initState = {
-    token: '',
+    token: null,
     isLoading: false,
     errorMessage: '',
-    userLogged: null
+    isLoggingIn: false
 };
 
-export default function reducer(state = initState, action) {
+const LogingReducer = (state = initState, action) => {
     const {type, payload} = action;
 
     switch (type) {
@@ -38,17 +41,15 @@ export default function reducer(state = initState, action) {
                 ...state,
                 data: payload.data,
             };
-        case actions.GET_USER_INFO_BY_EMAIL_SUCCESS:
-            return {
-                ...state,
-                userLogged: payload,
-            }
-        case actions.GET_USER_INFO_BY_EMAIL_ERROR:
-            return {
-                ...state,
-                errorMessage: payload.payload
-            }
         default:
         return state;
     }
 }
+
+const persistConfig = {
+    key: 'login',
+    storage: storage,
+    blacklist: ['errorMessage', 'isLoggingIn', 'isLoading' ]
+  };
+
+export default persistReducer(persistConfig, LogingReducer)

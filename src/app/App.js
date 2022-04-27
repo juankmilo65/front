@@ -1,29 +1,27 @@
-import { useEffect, Suspense }  from 'react';
-import { bindActionCreators  } from 'redux'
-import { BrowserRouter as Router } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import {useEffect, Suspense }  from 'react';
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 import Layaout from '../components/layout/Layaout';
 import Login from '../components/login/Login'
-import loginActions from '../components/login/logingActions'
 
 function App() {
 
-  const state = useSelector((state)=> state.login)
-  const dispapatch = useDispatch();
-  const { loginSuccess} = bindActionCreators(loginActions, dispapatch)
+  const state = useSelector((state)=> state.login);
+  // const location = useLocation();
 
   useEffect(() => {
-    if(state.token === '' && (localStorage.getItem("token") !== '' && localStorage.getItem("token") !== null))
+
+    if(state.token !== null  && window.location.pathname === '/' )
     {
-      loginSuccess(localStorage.getItem("token"));
+      window.location.pathname = '/dashboard'
     }
-  }, [loginSuccess, state.token])
+  }, [state.token])
 
   return (
     <Suspense fallback={null}>
        <Router> 
-        {(state.token === '') ?
+        {(state.token === null) ?
           (<Login/>) :
           (<Layaout/>)
         }

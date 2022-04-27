@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import i18next from 'i18next';
 import { FacebookFilled, TwitterSquareFilled, InstagramFilled } from '@ant-design/icons';
 
-import {LanguagesWrapper} from './Footer.styles'
+import {LanguagesWrapper, SpanishFlag, EnglishFlag} from './Footer.styles'
 
 function Footer() {
 
@@ -27,8 +27,8 @@ function Footer() {
                 <div onClick={()=> {}} ><FacebookFilled/> Facebook</div>
                 <div onClick={()=> {}} ><TwitterSquareFilled/> Twitter</div>
                 <div onClick={()=> {}} ><InstagramFilled/> Instagram</div>
-                <div onClick={()=>i18n.changeLanguage('es')} >{t("spanish")}</div>
-                <div onClick={() => i18n.changeLanguage('en')} >{t("english")}</div>
+                <div onClick={()=>i18n.changeLanguage('es')} ><SpanishFlag/>{t("spanish")}</div>
+                <div onClick={() => i18n.changeLanguage('en')} ><EnglishFlag/>{t("english")}</div>
             </LanguagesWrapper>
         </Footer>
     )

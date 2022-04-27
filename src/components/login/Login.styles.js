@@ -19,8 +19,9 @@ const ContainerLogin = styled.div`
 const WrapperContentLogin = styled.div`
     background: white;
     border-radius: 0 30px 30px 0;
-    padding-top: 7%;
+    padding-top: 4%;
     padding-right: 2%;
+    width: 26%;
 `
 
 const WrapperLogo = styled.div`
@@ -32,7 +33,7 @@ const Logo = styled.img.attrs({
     src: `${logo}`
   })`
     width: 26%;
-    margin-top: 20%;
+    margin-top: 9%;
   `;
 
 export {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo}
