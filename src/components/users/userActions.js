@@ -1,8 +1,18 @@
 const actions =  {
-    GET_USERS : 'GET_USERS',
+    GET_USERS_CHILDREN_BY_FATHER_ID : 'GET_USERS_CHILDREN_BY_FATHER_ID',
+    GET_USERS_CHILDREN_BY_FATHER_ID_SUCCESS : 'GET_USERS_CHILDREN_BY_FATHER_ID_SUCCESS',
+    GET_USERS_CHILDREN_BY_FATHER_ID_ERROR : 'GET_USERS_CHILDREN_BY_FATHER_ID_ERROR',
     
-    getUsers :(payload) => ({
-        type: actions.GET_USERS,
+    getUserChildrenByFatherId :(payload) => ({
+        type: actions.GET_USERS_CHILDREN_BY_FATHER_ID,
+        payload,
+    }),
+    getUserChildrenByFatherIdSuccess :(payload) => ({
+        type: actions.GET_USERS_CHILDREN_BY_FATHER_ID_SUCCESS,
+        payload,
+    }),
+    getUserChildrenByFatherIdError:(payload) => ({
+        type: actions.GET_USERS_CHILDREN_BY_FATHER_ID_ERROR,
         payload,
     }),
 };

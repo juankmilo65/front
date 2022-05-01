@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 // import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 import loginReduer from '../../components/login/loginReducer'
+import usersReduer from '../../components/users/userReducer'
 import {rootSaga} from '../../utilities/mergeSagas'
 
 
@@ -20,7 +21,8 @@ export function configureStore() {
   }
 
   const rootReducer = combineReducers({
-    login: loginReduer
+    login: loginReduer,
+    users: usersReduer,
   });
 
   const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
-import { Form, Input, Button, Checkbox, Tag } from 'antd';
+import { Form, Input, Button, Tag } from 'antd';
 import { CloseCircleOutlined} from '@ant-design/icons';
 
 import Footer from '../footer/Footer'

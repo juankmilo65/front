@@ -1,7 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
-import { Table, Badge, Menu, Dropdown, Space } from 'antd';
+import React, {useEffect, useState} from 'react'
+import { bindActionCreators  } from 'redux'
+import { useTranslation } from "react-i18next"
+import { useSelector, useDispatch} from 'react-redux'
+import { Table, Badge, Menu, Dropdown, Space, Checkbox } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import jwt_decode from "jwt-decode";
+
+import userActions from './userActions'
 
 const menu = (<Menu>
         <Menu.Item>Action 1</Menu.Item>
@@ -10,8 +17,19 @@ const menu = (<Menu>
     );
 
 function Users() {
-
   
+    const {t} = useTranslation(['users']);
+    const dispapatch = useDispatch();
+    const userState = useSelector((state)=> state.users);
+    const loginState = useSelector((state)=> state.login);
+
+    const {getUserChildrenByFatherId } = bindActionCreators(userActions, dispapatch)
+
+    useEffect(()  => {
+      const decoded = jwt_decode(loginState.token);
+      getUserChildrenByFatherId(decoded.id)
+    }, [loginState.token])
+
     const expandedRowRender = () => {
         const columns = [
           { title: 'Date', dataIndex: 'date', key: 'date' },
@@ -58,34 +76,24 @@ function Users() {
       };
     
       const columns = [
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Platform', dataIndex: 'platform', key: 'platform' },
-        { title: 'Version', dataIndex: 'version', key: 'version' },
-        { title: 'Upgraded', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-        { title: 'Creator', dataIndex: 'creator', key: 'creator' },
-        { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
-        { title: 'Action', key: 'operation', render: () => <a>Publish</a> },
+        { title: t("name"), dataIndex: 'name', key: 'name' },
+        { title: t("lastname"), dataIndex: 'lastname', key: 'lastname' },
+        { title: t("status"), dataIndex: 'status', key: 'status',
+          render: text => {
+            return <Checkbox disabled={true} checked={text}>{text ? 'Actived': 'Disabled'}</Checkbox>;
+          }, 
+        },
+        { title: t("createdAt"), dataIndex: 'createdAt', key: 'createdAt' },
+        { title: t("updatedAt"), dataIndex: 'updatedAt', key: 'updatedAt' },
+        { title: t("action"), key: 'operation', render: () => <a>Publish</a> },
       ];
     
-      const data = [];
-      for (let i = 0; i < 3; ++i) {
-        data.push({
-          key: i,
-          name: 'Screem',
-          platform: 'iOS',
-          version: '10.3.4.5654',
-          upgradeNum: 500,
-          creator: 'Jack',
-          createdAt: '2014-12-24 23:12:00',
-        });
-      }
-
   return (
     <Table
       className="components-table-demo-nested"
       columns={columns}
       expandable={{ expandedRowRender }}
-      dataSource={data}
+      dataSource={userState.usersByFather}
     />
   )
 }

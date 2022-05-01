@@ -1,0 +1,8 @@
+{
+  "name": "Name",
+  "lastname": "Lastname",
+  "status": "Status",
+  "createdAt": "Registration date",
+  "updatedAt": "Updated date",
+  "action": "Action"
+}
