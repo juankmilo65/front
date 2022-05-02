@@ -4,11 +4,13 @@ import React, {useEffect, useState} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
-import { Table, Badge, Menu, Dropdown, Space, Checkbox } from 'antd';
+import { Table, Badge, Menu, Dropdown, Space, Checkbox, Button, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import jwt_decode from "jwt-decode";
 
 import userActions from './userActions'
+import { WrapperButtons } from './User.styles'
+import CreateUser from '../createUser/CreateUser'
 
 const menu = (<Menu>
         <Menu.Item>Action 1</Menu.Item>
@@ -22,6 +24,8 @@ function Users() {
     const dispapatch = useDispatch();
     const userState = useSelector((state)=> state.users);
     const loginState = useSelector((state)=> state.login);
+    
+    const [openModal, setOpenModal] = useState(false);
 
     const {getUserChildrenByFatherId } = bindActionCreators(userActions, dispapatch)
 
@@ -29,6 +33,12 @@ function Users() {
       const decoded = jwt_decode(loginState.token);
       getUserChildrenByFatherId(decoded.id)
     }, [loginState.token])
+
+    const refreshUsers = () => {debugger
+      const decoded = jwt_decode(loginState.token);
+      getUserChildrenByFatherId(decoded.id)
+      setOpenModal(false)
+    }
 
     const expandedRowRender = () => {
         const columns = [
@@ -89,12 +99,24 @@ function Users() {
       ];
     
   return (
-    <Table
+    <div>
+      <WrapperButtons><Button onClick={() => setOpenModal(true)}>Create Denario</Button></WrapperButtons>
+      <Table
       className="components-table-demo-nested"
       columns={columns}
       expandable={{ expandedRowRender }}
       dataSource={userState.usersByFather}
     />
+    <Modal
+          title="Create User"
+          centered
+          visible={openModal}
+          footer={null}
+          onCancel={() => setOpenModal(false)}
+        >
+          <CreateUser handlerMethod={refreshUsers}></CreateUser>
+        </Modal>
+    </div>
   )
 }
 
