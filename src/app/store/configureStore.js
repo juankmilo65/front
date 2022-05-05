@@ -6,6 +6,9 @@ import storage from 'redux-persist/lib/storage'
 
 import loginReduer from '../../components/login/loginReducer'
 import usersReduer from '../../components/users/userReducer'
+import createUsersReducer from '../../components/createUser/createUserReducer'
+import plansReducer from '../../components/plans/plansReducer'
+import errorReducer from '../../components/error/errorReducer'
 import {rootSaga} from '../../utilities/mergeSagas'
 
 
@@ -22,7 +25,10 @@ export function configureStore() {
 
   const rootReducer = combineReducers({
     login: loginReduer,
+    error:errorReducer,
     users: usersReduer,
+    createUsers: createUsersReducer,
+    plans: plansReducer
   });
 
   const persistedReducer = persistReducer(persistConfig, rootReducer)

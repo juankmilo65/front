@@ -1,11 +1,13 @@
-import actions from './userActions'
+import actions from './createUserActions'
 
 const initState = {
     isLoading: false,
-    errorMessage: ''
+    errorMessage: '',
+    keepOpenCreateUser: false,
+    haveFieldsFilled: false
 };
 
-const UserReducer = (state = initState, action) => {
+const CreateUsersReducer = (state = initState, action) => {
     const {type, payload} = action;
     
     switch (type) {
@@ -21,9 +23,19 @@ const UserReducer = (state = initState, action) => {
             };
         case actions.CREATE_USER_ERROR:
             return {
-              ...state,
-              isLoading: false,
-              errorMessage: payload.payload,
+                ...state,
+                isLoading: false,
+                errorMessage: payload.payload,
+            }
+        case actions.KEEP_OPEN_CREATE_USER:
+            return {
+                ...state,
+                keepOpenCreateUser: payload
+            }
+        case actions.SET_HAVE_FIELDS_FILLED:
+            return {
+                ...state,
+                haveFieldsFilled: payload,
             }
         default:
         return state;
@@ -31,4 +43,4 @@ const UserReducer = (state = initState, action) => {
 }
 
 
-export default  UserReducer
+export default  CreateUsersReducer

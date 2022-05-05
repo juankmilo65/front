@@ -13,7 +13,7 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
     debug: true,
     //can have multiple namespaces, in case you want to drive a huge 
     //translation into smaller pices and load them on demand
-    ns: ["common", "footer", "login", "layout"],
+    ns: ["common", "footer", "login", "layout", "createUsers"],
     interpolation: {
         espaceValues: false,
         formatSeparator: ",",

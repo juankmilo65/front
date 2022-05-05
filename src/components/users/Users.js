@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
@@ -9,6 +9,7 @@ import { DownOutlined } from '@ant-design/icons';
 import jwt_decode from "jwt-decode";
 
 import userActions from './userActions'
+import createUserActions from '../createUser/createUserActions'
 import { WrapperButtons } from './User.styles'
 import CreateUser from '../createUser/CreateUser'
 
@@ -20,24 +21,29 @@ const menu = (<Menu>
 
 function Users() {
   
-    const {t} = useTranslation(['users']);
-    const dispapatch = useDispatch();
-    const userState = useSelector((state)=> state.users);
-    const loginState = useSelector((state)=> state.login);
-    
-    const [openModal, setOpenModal] = useState(false);
+  const handlerChildCloseModal = React.useRef(null);
+  
+  const {t} = useTranslation(['users']);
+  const dispapatch = useDispatch();
+  const userState = useSelector((state)=> state.users);
+  const loginState = useSelector((state)=> state.login);
+  const createUserState = useSelector((state)=> state.createUsers);
 
-    const {getUserChildrenByFatherId } = bindActionCreators(userActions, dispapatch)
+  const {getUserChildrenByFatherId } = bindActionCreators(userActions, dispapatch);
+  const { keepOpenCreateUser } = bindActionCreators(createUserActions, dispapatch);
 
-    useEffect(()  => {
+  useEffect(()  => {
+    const decoded = jwt_decode(loginState.token);
+    getUserChildrenByFatherId(decoded.id)
+  }, [loginState.token])
+
+    const refreshUsers = () => {
       const decoded = jwt_decode(loginState.token);
       getUserChildrenByFatherId(decoded.id)
-    }, [loginState.token])
+    }
 
-    const refreshUsers = () => {debugger
-      const decoded = jwt_decode(loginState.token);
-      getUserChildrenByFatherId(decoded.id)
-      setOpenModal(false)
+    const closeCreateUserHandler = () => {
+      handlerChildCloseModal.current(createUserState)
     }
 
     const expandedRowRender = () => {
@@ -100,7 +106,7 @@ function Users() {
     
   return (
     <div>
-      <WrapperButtons><Button onClick={() => setOpenModal(true)}>Create Denario</Button></WrapperButtons>
+      <WrapperButtons><Button onClick={()=> keepOpenCreateUser(true)}>Create Denario</Button></WrapperButtons>
       <Table
       className="components-table-demo-nested"
       columns={columns}
@@ -110,11 +116,12 @@ function Users() {
     <Modal
           title="Create User"
           centered
-          visible={openModal}
+          visible={createUserState.keepOpenCreateUser}
           footer={null}
-          onCancel={() => setOpenModal(false)}
+          onCancel={()=> closeCreateUserHandler()}
+          maskClosable={false}
         >
-          <CreateUser handlerMethod={refreshUsers}></CreateUser>
+          <CreateUser handlerMethod={refreshUsers} handlerChildCloseModal={handlerChildCloseModal}  ></CreateUser>
         </Modal>
     </div>
   )
