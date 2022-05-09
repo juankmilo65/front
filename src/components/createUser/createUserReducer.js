@@ -4,7 +4,8 @@ const initState = {
     isLoading: false,
     errorMessage: '',
     keepOpenCreateUser: false,
-    haveFieldsFilled: false
+    haveFieldsFilled: false,
+    userCreated: false
 };
 
 const CreateUsersReducer = (state = initState, action) => {
@@ -14,18 +15,21 @@ const CreateUsersReducer = (state = initState, action) => {
         case actions.CREATE_USER:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                userCreated: false
             };
         case actions.CREATE_USER_SUCCESS:
             return {
                 ...state,
-                isLoading: false
+                isLoading: false,
+                userCreated: true
             };
         case actions.CREATE_USER_ERROR:
             return {
                 ...state,
                 isLoading: false,
-                errorMessage: payload.payload,
+                errorMessage: payload,
+                userCreated: false
             }
         case actions.KEEP_OPEN_CREATE_USER:
             return {
@@ -36,6 +40,13 @@ const CreateUsersReducer = (state = initState, action) => {
             return {
                 ...state,
                 haveFieldsFilled: payload,
+            }
+        case actions.RESET_USER_CREATED:
+            return {
+                ...state,
+                userCreated: false,
+                errorMessage: '',
+                isLoading: false,
             }
         default:
         return state;

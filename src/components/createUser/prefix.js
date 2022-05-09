@@ -1,5 +1,9 @@
 const  prefix = [
   {
+    flag: 'argentina',
+    prefix: '54'
+  },
+  {
     flag: 'colombia',
     prefix: '57'
   },

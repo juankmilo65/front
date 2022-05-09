@@ -29,7 +29,7 @@ function Login() {
      login(values);
   };
 
-  const onFinishFailed = (errorInfo) => {debugger
+  const onFinishFailed = (errorInfo) => {
       console.log('Failed:', errorInfo);
   };
     

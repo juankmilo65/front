@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect} from 'react'
+import React, {memo, useEffect, useCallback} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
@@ -35,15 +35,17 @@ function Users() {
   useEffect(()  => {
     const decoded = jwt_decode(loginState.token);
     getUserChildrenByFatherId(decoded.id)
-  }, [loginState.token])
+  }, [])
 
     const refreshUsers = () => {
       const decoded = jwt_decode(loginState.token);
       getUserChildrenByFatherId(decoded.id)
     }
 
-    const closeCreateUserHandler = () => {
-      handlerChildCloseModal.current(createUserState)
+    const closeCreateUserHandler = (event) => {
+      if (event.key !== "Escape") {
+        handlerChildCloseModal.current(createUserState)
+      }
     }
 
     const expandedRowRender = () => {
@@ -106,25 +108,26 @@ function Users() {
     
   return (
     <div>
-      <WrapperButtons><Button onClick={()=> keepOpenCreateUser(true)}>Create Denario</Button></WrapperButtons>
+      <WrapperButtons><Button onClick={()=> keepOpenCreateUser(true)}> {t("createDenario")}   </Button></WrapperButtons>
       <Table
       className="components-table-demo-nested"
       columns={columns}
       expandable={{ expandedRowRender }}
       dataSource={userState.usersByFather}
     />
-    <Modal
-          title="Create User"
+      <Modal
+          title={t("createUserTitle")}
           centered
           visible={createUserState.keepOpenCreateUser}
           footer={null}
-          onCancel={()=> closeCreateUserHandler()}
+          onCancel={(e)=> closeCreateUserHandler(e)}
           maskClosable={false}
+          width={600}
         >
-          <CreateUser handlerMethod={refreshUsers} handlerChildCloseModal={handlerChildCloseModal}  ></CreateUser>
-        </Modal>
+          <CreateUser handlerMethod={refreshUsers} handlerChildCloseModal={handlerChildCloseModal} />
+      </Modal>
     </div>
   )
 }
 
-export default Users
+export default memo(Users)

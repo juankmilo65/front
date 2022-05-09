@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import argentina from '../../images/argentinaFlag.png'
 import colombia from '../../images/colombianFlag.png';
 import ecuator from '../../images/ecuatorianFlag.png';
 import mexico from '../../images/mexicanFlag.png';
@@ -9,6 +10,7 @@ import venezuela from '../../images/venezuelanFlag.png';
 
 
 const images = {
+  argentina,
   colombia,
   ecuator,
   mexico,

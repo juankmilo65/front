@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-empty-pattern */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect } from 'react';
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
 import { Form, Input, Select, Checkbox, Button, Modal } from 'antd';
 import jwt_decode from "jwt-decode";
+import { ExclamationCircleOutlined, CheckCircleFilled , CloseCircleFilled } from '@ant-design/icons';
 
 import prefix from './prefix'
+import counties from '../../utilities/countriesCities.json'
 import {Flag} from './CreateUser.styles'
 
 import createUserActions from './createUserActions'
@@ -25,6 +29,8 @@ const formItemLayout = {
   },
 };
 
+const filterCountries = ['Argentina','Colombia', 'Ecuador', 'Mexico', 'Panama', 'Spain', 'United States']
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -41,33 +47,84 @@ const tailFormItemLayout = {
 function CreateUser({handlerMethod, handlerChildCloseModal }) {
   
   const {t, i18n} = useTranslation(['createUsers']);
-
+ 
+  const { confirm , success, error} = Modal;
   const [form] = Form.useForm();
   const dispapatch = useDispatch();
  
   const [openWarningModal, setOpenWarningModal] = useState(false)
-  const {createUser, keepOpenCreateUser, setHaveFieldsFilled } = bindActionCreators(createUserActions, dispapatch);
+  const [countiesList, setCountiesList] = useState([]);
+  const [citiesList, setCitiesList] = useState([]);
+  const {createUser, keepOpenCreateUser, setHaveFieldsFilled, resetUserCreated } = bindActionCreators(createUserActions, dispapatch);
   const { getAllPlans } = bindActionCreators(plansActions, dispapatch);
   
   const loginState = useSelector((state)=> state.login);
   const plansState = useSelector((state)=> state.plans);
+  const createUsers = useSelector((state)=> state.createUsers);
 
   useEffect(() => {
     handlerChildCloseModal.current = handleCloseModal;
+    createtTemporalCountriesList(counties)
     getAllPlans()
   }, [])
 
   useEffect(()  => {
     if(form.getFieldsError()[0].errors.length > 0 || form.getFieldsError()[1].errors.length > 0 ){
       form.validateFields()
-    }    
+    }  
   }, [form, i18n.language])
+
+  const showConfirmClose = () =>{
+    confirm({
+      title: `${t("warningModal")}`,
+      icon: <ExclamationCircleOutlined />,
+      content: `${t("cancelCreationMessage")}`,
+      onOk() { handleOk() },
+      onCancel() { handleCloseModal() },
+      okText:"Ok",
+      cancelText:`${t("cancel")}`
+    });
+  }
+
+  const showSuccessCreation = () => {
+    success({
+      icon: <CheckCircleFilled />,
+      content: `${t("successUserCreation")}`,
+      onOk() { 
+        keepOpenCreateUser(false);
+        setHaveFieldsFilled(false)
+        resetUserCreated()
+        form.resetFields()
+      },
+      okText:"Ok",
+      cancelButtonProps : { style: { display: 'none' } }, 
+    })
+  }
+
+  const showErrorCreation = () => {
+    error({
+      icon: <CloseCircleFilled />,
+      content: createUsers.errorMessage,
+      onOk() {
+        resetUserCreated()
+      },
+      okText:"Ok",
+      cancelButtonProps : { style: { display: 'none' } }, 
+    })
+  }
+
+  const createtTemporalCountriesList = (counties) => {
+    const temporalList = counties.filter(o => filterCountries.includes(o['country_'+i18n.language]))
+    setCountiesList(temporalList)
+  }
 
   const onFinish = (values) => {
       const decoded = jwt_decode(loginState.token);
-      values.parentId = decoded.id
+      
+      values.parentId = decoded.id;
+      values.language = i18n.language;
+
       createUser(values)
-      form.resetFields()
       handlerMethod()
   };
 
@@ -77,35 +134,57 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
        return count = (o.value === '' || o.value === undefined )? count : count+1 ; 
     })
     
-    setHaveFieldsFilled(count > 1)
+    setHaveFieldsFilled(count > 0)
   }
 
   const handleOk = () => {
     keepOpenCreateUser(false);
     setOpenWarningModal(false);
+    setHaveFieldsFilled(false)
     form.resetFields()
   }
 
-  const handleCancel = () => {
-    keepOpenCreateUser(true);
-    setOpenWarningModal(false);
+  const handleCloseModal = (refCreateUserState) => {
+    
+    if(refCreateUserState === undefined) {
+      keepOpenCreateUser(true);
+      setOpenWarningModal(false);
+    }else{
+
+      setOpenWarningModal(refCreateUserState.haveFieldsFilled)
+      keepOpenCreateUser(refCreateUserState.haveFieldsFilled)
+
+      if(refCreateUserState.haveFieldsFilled === false){
+        form.resetFields()
+      }
+    }
   }
 
-  const handleCloseModal = (refCreateUserState) => {
-    setOpenWarningModal(refCreateUserState.haveFieldsFilled)
-    keepOpenCreateUser(refCreateUserState.haveFieldsFilled)
+  const handleCloseModalCancel = () => {
+    setOpenWarningModal(createUsers.haveFieldsFilled)
+    keepOpenCreateUser(createUsers.haveFieldsFilled)
+
+    if(!createUsers.haveFieldsFilled){
+      form.resetFields()
+    }
+  }
+
+  const selectCity= (e) => {
+    setCitiesList(([]) => {
+      form.setFieldsValue( { city: undefined } )
+      setCitiesList(countiesList.find(o=> o.iso2 === e).cities)
+    })
   }
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 90 }}>
+      <Select showSearch style={{ width: 90 }} placeholder={t("selectPhone")} >
        {prefix.map((o, key)=>{
          return <Option key={key} value={o.prefix}><Flag theme={o.flag}/> {o.prefix}</Option>
        })}
       </Select>
     </Form.Item>
   );
- 
     
   return (
     <>
@@ -137,15 +216,15 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
         </Form.Item>
         <Form.Item
           name="email"
-          label="E-mail"
+          label={t("email")}
           rules={[
             {
               type: 'email',
-              message: 'The input is not valid E-mail!',
+              message: `${t("errorFormattEmail")}`,
             },
             {
               required: true,
-              message: 'Please input your E-mail!',
+              message: `${t("errorInputEmail")}`,
             },
           ]}
         >
@@ -154,11 +233,11 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
         <Form.Item
           name="password"
-          label="Password"
+          label={t("password")}
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: `${t("errorPassword")}`,
             },
           ]}
           hasFeedback
@@ -168,20 +247,20 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
         <Form.Item
           name="confirm"
-          label="Confirm Password"
+          label={t("confirmPassword")}
           dependencies={['password']}
           hasFeedback
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: `${t("errorConfirmPassword")}`,
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                return Promise.reject(new Error(`${t("errorPasswordDoNotMatch")}`));
               },
             }),
           ]}
@@ -191,51 +270,70 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
         <Form.Item
           name="address"
-          label="Address"
-          rules={[{ required: true, message: 'Please input your address', whitespace: true}]}
+          label={t("address")}
+          rules={[{ required: true, message: `${t("errorAddres")}`, whitespace: true}]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item
           name="country"
-          label="Country"
-          rules={[{ required: true, message: 'Please select country!' }]}
+          label={t("country")}
+          rules={[{ required: true, message: `${t("errorAddres")}` }]}
         >
-          <Select placeholder="select plan">
-            <Option value="Colombia">Colombia</Option>
+          <Select 
+            showSearch
+            placeholder={t("selectCountry")} 
+            onChange={(value) => selectCity(value) }
+          >
+          {countiesList.map((o, key) => {
+            return <Option key={key} value={o.iso2}>{o['country_'+i18n.language]}</Option>
+          })}
           </Select>
         </Form.Item>
 
         <Form.Item
           name="city"
-          label="City"
-          rules={[{ required: true, message: 'Please select city!' }]}
+          label={t("city")}
+          rules={[{ required: true, message: `${t("errorCity")}`  }]}
         >
-          <Select placeholder="select plan">
-            <Option value="Medellín">Medellin</Option>
+          <Select 
+            showSearch
+            placeholder={t("selectCity")} 
+            disabled= {citiesList && citiesList.length === 0}
+          >
+          {citiesList && citiesList.map((city, key) => {
+            return <Option key={key} value={city}>{city}</Option>
+          })}
           </Select>
         </Form.Item>
 
         <Form.Item
           name="phone"
-          label="Phone Number"
-          rules={[{ required: true, message: 'Please input your phone number!' }]}
+          label={t("phone")}
+          rules={[{ required: true, message: `${t("errorPhone")}` }]}
         >
           <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item
           name="plan"
-          label="Plan"
-          rules={[{ required: true, message: 'Please select plan!' }]}
+          label={t("plan")}
+          rules={[{ required: true, message: `${t("errorPlan")}`  }]}
         >
-          
-          <Select placeholder="Select plan">
+          <Select placeholder={t("selectPlan")}>
             {plansState.plans.map((o, key ) => {
               return <Option key={key} value={o.id}>{o.name}</Option>
             })}
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="wallet"
+          label={t("wallet")}
+          rules={[{ required: true, message: `${t("walletError")}`, whitespace: false}]}
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -244,24 +342,27 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
           rules={[
             {
               validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                value ? Promise.resolve() : Promise.reject(new Error( `${t("errorAgreement")}` )),
             },
           ]}
           {...tailFormItemLayout}
         >
           <Checkbox>
-            I have read the <a href="">agreement</a>
+          {t("iHaveRead")} <a href="">{t("agreement")}</a>
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+          {t("register")}
+          </Button>
+          <Button onClick={()=> handleCloseModalCancel()} >
+          {t("cancel")}
           </Button>
         </Form.Item>
       </Form>
-      <Modal title="Basic Modal" visible={openWarningModal } onOk={handleOk} onCancel={handleCancel}>
-      <p>Do you want to cancel the user creation</p>
-      </Modal>
+      {openWarningModal && showConfirmClose()}
+      {createUsers.userCreated  && showSuccessCreation()}
+      {(!createUsers.userCreated && createUsers.errorMessage !== '' )&& showErrorCreation()}
     </>
   )
 }

@@ -1,7 +1,7 @@
 {
   "name": "Name",
   "errorName": "Please input your name!",
-  "lastname": "lastname",
+  "lastname": "Lastname",
   "errorLastname": "Please input your lastname!",
   "email": "E-mail",
   "errorInputEmail": "Please input your E-mail!",
@@ -19,6 +19,7 @@
   "selectCity": "Select City",
   "city": "City",
   "errorCity": "Please select city!",
+  "selectPhone":"Prefix",
   "phone": "Phone",
   "errorPhone": "Please input your phone number!",
   "selectPlan": "Select Plan",
@@ -28,5 +29,10 @@
   "iHaveRead": "I have read the",
   "agreement": "agreement",
   "register":"Register",
-  "cancelCreationMessage": "Do you want to cancel the user creation"
+  "cancel":"Cancel",
+  "cancelCreationMessage": "Do you want to cancel the user creation?",
+  "warningModal": "Warning",
+  "successUserCreation": "Denario created successfully",
+  "wallet": "Wallet",
+  "walletError": "Please enter your wallet number!"
 }

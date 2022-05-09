@@ -16,13 +16,15 @@ function* createUser (data) {
       "city": data.payload.city,
       "status": true,
       "agreement":data.payload.agreement,
-      "parentId": data.payload.parentId
+      "parentId": data.payload.parentId,
+      "planId": data.payload.plan,
+      "wallet": data.payload.wallet
     }
 
-    const result = yield call(services.createUser, user );
+    const result = yield call(services.createUser, {user, language: data.payload.language} );
 
     if(result.isAxiosError){
-        yield put(actions.createUserError(result.response.data.error))
+       return  yield put(actions.createUserError(result.response.data.message))
     }
 
     yield put(actions.createUserSuccess())

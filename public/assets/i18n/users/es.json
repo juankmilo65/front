@@ -1,8 +1,10 @@
 {
+  "createUserTitle": "Crear usuario",
   "name": "Nombre",
   "lastname": "Apellido",
   "status": "Estatus",
   "createdAt": "Fecha de registro",
   "updatedAt": "Fecha de actualización",
-  "action": "Acciones"
+  "action": "Acciones",
+  "createDenario": "Crear Denario"
 }

@@ -17,13 +17,11 @@ function AppWithCallbackAfterRender() {
   });
 
   return (
-    <React.StrictMode>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <App />
         </PersistGate>
       </Provider>
-    </React.StrictMode>
   )
 }
 
