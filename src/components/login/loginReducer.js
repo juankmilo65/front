@@ -41,6 +41,11 @@ const LogingReducer = (state = initState, action) => {
                 ...state,
                 data: payload.data,
             };
+        case actions.CLEAN_TOKEN:
+            return {
+                ...state,
+                token: null
+            };
         default:
         return state;
     }

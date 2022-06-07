@@ -120,9 +120,10 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
   const onFinish = (values) => {
       const decoded = jwt_decode(loginState.token);
-      
+      debugger
       values.parentId = decoded.id;
       values.language = i18n.language;
+      values.referrer = decoded.referrer;
 
       createUser(values)
       handlerMethod()

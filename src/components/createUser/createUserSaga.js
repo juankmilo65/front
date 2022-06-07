@@ -4,7 +4,7 @@ import services from './createUserService'
 import actions from './createUserActions'
 
 function* createUser (data) {
-  try{
+  try{debugger
     const user = {
       "name": data.payload.name,
       "lastname":data.payload.lastname,
@@ -18,7 +18,8 @@ function* createUser (data) {
       "agreement":data.payload.agreement,
       "parentId": data.payload.parentId,
       "planId": data.payload.plan,
-      "wallet": data.payload.wallet
+      "wallet": data.payload.wallet,
+      "referrer": data.payload.referrer 
     }
 
     const result = yield call(services.createUser, {user, language: data.payload.language} );

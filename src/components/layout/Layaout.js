@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Routes, Route, Link } from "react-router-dom";
-import { Menu, Layout} from 'antd';
-import { PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, TeamOutlined } from '@ant-design/icons';
+import { Menu, Layout, Popover} from 'antd';
+import { PieChartOutlined, DesktopOutlined, ContainerOutlined, TeamOutlined } from '@ant-design/icons';
 import jwt_decode from "jwt-decode";
 import { useTranslation } from "react-i18next"
 
@@ -12,6 +12,7 @@ import Footer from '../footer/Footer'
 import Dashboard from '../dashboard/Dashboard'
 import Users from '../users/Users';
 import Error from '../error/Error'
+import MenuPopover from '../menuPopover/MenuPopover'
 
 const { Header, Content, Sider } = Layout;
 
@@ -62,7 +63,9 @@ function Layaout() {
                     <Layout className="site-layout" style={{background: '#e4d7ea'}}>
                     <Header className="site-layout-background" style={{ zIndex: 1, display:'flex', justifyContent: 'right', position: 'sticky', top:0, color:'white', padding: 0,  background: 'linear-gradient(to right, #4C2C89, #2a0845)'}} >
                         <div>{t("welcome")} {userName}</div>
-                        <Avatar/>
+                        <Popover placement="bottomRight" content={<MenuPopover/>} trigger="click">
+                            <Avatar/>
+                        </Popover>
                     </Header>
                     <Content style={{ margin: '16px 16px 16px', padding: '25px', background:'white' }}>
                         <Routes>

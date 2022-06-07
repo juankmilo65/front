@@ -5,6 +5,7 @@ const actions =  {
     REGISTER_LOGIN : 'REGISTER_LOGIN',
     REGISTER_LOGIN_SUCCESS : 'REGISTER_LOGIN_SUCCESS',
     GET_USER_INFO_BY_EMAIL: 'GET_USER_INFO_BY_EMAIL',
+    CLEAN_TOKEN: 'CLEAN_TOKEN',
 
     login:(payload) => ({
         type: actions.LOGIN,
@@ -29,6 +30,9 @@ const actions =  {
     getUserInfoByEmail:(payload) =>({
         type: actions.GET_USER_INFO_BY_EMAIL,
         payload,
+    }),
+    cleanToken:() => ({
+        type: actions.CLEAN_TOKEN
     })
 };
 

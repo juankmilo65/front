@@ -24,7 +24,6 @@ function Login() {
     }    
   }, [form, i18n.language])
 
-
   const onFinish =  (values) => {
      login(values);
   };
