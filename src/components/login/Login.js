@@ -1,19 +1,21 @@
 import React, {useEffect, Suspense} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch} from 'react-redux'
 import { Form, Input, Button, Tag } from 'antd';
 import { CloseCircleOutlined} from '@ant-design/icons';
 
 import Footer from '../footer/Footer'
 import loginActions from './logingActions'
-import {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo, WrapperLoginButtons} from './Login.styles'
+import {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo, WrapperLoginButtons, RegisterLink} from './Login.styles'
 
 function Login() {
 
    const [form] =  Form.useForm();
 
-  const {t, i18n} = useTranslation(['login', 'common'])
+  const {t, i18n} = useTranslation(['login', 'common']);
+  const navigate = useNavigate();
   const dispapatch = useDispatch();
   const state = useSelector((state)=> state.login)
   const {login } = bindActionCreators(loginActions, dispapatch)
@@ -70,7 +72,7 @@ function Login() {
                 <Button type="primary" htmlType="submit" loading={state.isLoading} >
                 {t("login")}
                 </Button>
-                {/* <RegisterLink onClick={}>{t("register")}</RegisterLink> */}
+                <RegisterLink onClick={() => navigate('/register')}>{t("register")}</RegisterLink>
               </WrapperLoginButtons>
             </Form.Item>
             {state.errorMessage === '' ? 

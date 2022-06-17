@@ -69,7 +69,7 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
   }, [])
 
   useEffect(()  => {
-    if(form.getFieldsError()[0].errors.length > 0 || form.getFieldsError()[1].errors.length > 0 ){
+    if(form.getFieldsError()[0]?.errors?.length > 0 || form.getFieldsError()[1]?.errors?.length > 0 ){
       form.validateFields()
     }  
   }, [form, i18n.language])
@@ -120,7 +120,6 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
   const onFinish = (values) => {
       const decoded = jwt_decode(loginState.token);
-      debugger
       values.parentId = decoded.id;
       values.language = i18n.language;
       values.referrer = decoded.referrer;

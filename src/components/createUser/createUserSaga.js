@@ -4,7 +4,7 @@ import services from './createUserService'
 import actions from './createUserActions'
 
 function* createUser (data) {
-  try{debugger
+  try{
     const user = {
       "name": data.payload.name,
       "lastname":data.payload.lastname,
