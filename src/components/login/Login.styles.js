@@ -36,4 +36,20 @@ const Logo = styled.img.attrs({
     margin-top: 9%;
   `;
 
-export {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo}
+const RegisterLink = styled.button`
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+`
+const WrapperLoginButtons = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+export {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo, RegisterLink, WrapperLoginButtons}

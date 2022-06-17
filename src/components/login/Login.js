@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, Suspense} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
@@ -7,7 +7,7 @@ import { CloseCircleOutlined} from '@ant-design/icons';
 
 import Footer from '../footer/Footer'
 import loginActions from './logingActions'
-import {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo} from './Login.styles'
+import {WrapperLogin, ContainerLogin, Logo, WrapperContentLogin, WrapperLogo, WrapperLoginButtons} from './Login.styles'
 
 function Login() {
 
@@ -33,6 +33,7 @@ function Login() {
   };
     
   return (
+    <Suspense fallback={null}>
     <WrapperLogin>
       <ContainerLogin>
         <WrapperLogo>
@@ -65,9 +66,12 @@ function Login() {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit" loading={state.isLoading} >
-              {t("login")}
-              </Button>
+              <WrapperLoginButtons>
+                <Button type="primary" htmlType="submit" loading={state.isLoading} >
+                {t("login")}
+                </Button>
+                {/* <RegisterLink onClick={}>{t("register")}</RegisterLink> */}
+              </WrapperLoginButtons>
             </Form.Item>
             {state.errorMessage === '' ? 
               null : 
@@ -80,6 +84,7 @@ function Login() {
       </ContainerLogin>
       <Footer/>
     </WrapperLogin>
+    </Suspense>
   )
 }
 

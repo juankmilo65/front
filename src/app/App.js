@@ -1,32 +1,32 @@
-import {useEffect, Suspense }  from 'react';
-import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import {useEffect }  from 'react';
+import { Route, useLocation, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux'
 
 import Layaout from '../components/layout/Layaout';
 import Login from '../components/login/Login'
+import Register from '../components/register/Register'
 
 function App() {
 
   const state = useSelector((state)=> state.login);
-  // const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-
-    if(state.token !== null  && window.location.pathname === '/' )
+    if(state.token !== null  && location.pathname === '/' )
     {
-      window.location.pathname = '/dashboard'
+      navigate('/dashboard');
     }
-  }, [state.token])
+  }, [state.token, navigate, location])
 
   return (
-    <Suspense fallback={null}>
-       <Router> 
-        {(state.token === null) ?
-          (<Login/>) :
-          (<Layaout/>)
-        }
-      </Router>
-    </Suspense>
+        <Routes>
+              <Route path="/" element={<Login/>} />
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/dashboard" element={<Layaout/>} />
+              <Route path="/users" element={<Layaout/>} />
+              <Route path="/statistics" element={<Layaout/>} />
+        </Routes>
   );
 }
 

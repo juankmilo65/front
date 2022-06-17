@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { BrowserRouter as Router } from "react-router-dom";
 import * as ReactDOMClient from 'react-dom/client';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.min.css'
@@ -19,7 +20,11 @@ function AppWithCallbackAfterRender() {
   return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <App />
+          <Suspense fallback={null}>
+            <Router> 
+              <App />
+            </Router>
+          </Suspense>
         </PersistGate>
       </Provider>
   )

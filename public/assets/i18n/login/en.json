@@ -3,5 +3,6 @@
     "password": "Password",
     "inputYourMail": "Please, input your email",
     "inputYourPassword": "Please, input your password",
-    "login": "Login"
+    "login": "Login",
+    "register": "Register"
 }

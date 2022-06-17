@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {memo, useEffect, useCallback} from 'react'
+import React, {memo, useEffect } from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
