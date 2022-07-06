@@ -29,7 +29,7 @@ function MenuPopover() {
     confirm({
       title: `${t("warningModal")}`,
       icon: <ExclamationCircleOutlined />,
-      content: `${t("cancelCreationMessage")}`,
+      content: `${t("endSessionMessage")}`,
       onOk() { logout() },
       onCancel() { setOpenWarningModal(false) },
       okText:"Ok",

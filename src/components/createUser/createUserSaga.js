@@ -19,7 +19,6 @@ function* createUser (data) {
       "parentId": data.payload.parentId,
       "planId": data.payload.plan,
       "wallet": data.payload.wallet,
-      "referrer": data.payload.referrer 
     }
 
     const result = yield call(services.createUser, {user, language: data.payload.language} );

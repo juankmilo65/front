@@ -34,5 +34,8 @@
   "warningModal": "Advertencia",
   "successUserCreation": "Denario creado satisfactoriamente",
   "wallet": "Billetera",
-  "walletError": "Por favor ingrese su numero de billetera!"
+  "walletError": "Por favor ingrese su numero de billetera!",
+  "goBack": "Regresar",
+  "referralCode": "Codigo de referido",
+  "referralCodeError": "Por favor ingrese un codigo de referido"
 }

@@ -1,4 +1,6 @@
 {
   "profile": "Profile",
-  "logout": "Logout"
+  "logout": "Log out",
+  "warningModal": "Warning",
+  "endSessionMessage": "Are you sure you want to log out?"
 }

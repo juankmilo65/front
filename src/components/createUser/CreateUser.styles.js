@@ -32,4 +32,10 @@ const Flag = styled.img.attrs(props => ({
   width: 32%;
 `;
 
-export {Flag}
+const WrapperAcctionButtons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: ${(props) => props.isRegister ? '-65%;' : '-39%'}; 
+`;
+
+export {Flag, WrapperAcctionButtons}

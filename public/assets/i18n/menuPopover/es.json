@@ -1,4 +1,6 @@
 {
   "profile": "Perfil",
-  "logout": "Cerrar Sesión"
+  "logout": "Cerrar Sesión",
+  "warningModal": "Atención",
+  "endSessionMessage": "¿Esta seguro que desea cerrar la sesión?"
 }

@@ -2,6 +2,7 @@
 /* eslint-disable no-empty-pattern */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useSelector, useDispatch} from 'react-redux'
@@ -11,7 +12,7 @@ import { ExclamationCircleOutlined, CheckCircleFilled , CloseCircleFilled } from
 
 import prefix from './prefix'
 import counties from '../../utilities/countriesCities.json'
-import {Flag} from './CreateUser.styles'
+import {Flag, WrapperAcctionButtons} from './CreateUser.styles'
 
 import createUserActions from './createUserActions'
 import plansActions from '../plans/plansActions'
@@ -47,6 +48,8 @@ const tailFormItemLayout = {
 function CreateUser({handlerMethod, handlerChildCloseModal }) {
   
   const {t, i18n} = useTranslation(['createUsers']);
+  const location = useLocation();
+  const navigate = useNavigate();
  
   const { confirm , success, error} = Modal;
   const [form] = Form.useForm();
@@ -55,6 +58,7 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
   const [openWarningModal, setOpenWarningModal] = useState(false)
   const [countiesList, setCountiesList] = useState([]);
   const [citiesList, setCitiesList] = useState([]);
+  const [isRegister, setIsRegister] = useState(false);
   const {createUser, keepOpenCreateUser, setHaveFieldsFilled, resetUserCreated } = bindActionCreators(createUserActions, dispapatch);
   const { getAllPlans } = bindActionCreators(plansActions, dispapatch);
   
@@ -63,6 +67,7 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
   const createUsers = useSelector((state)=> state.createUsers);
 
   useEffect(() => {
+    setIsRegister(location.pathname === '/register');
     handlerChildCloseModal.current = handleCloseModal;
     createtTemporalCountriesList(counties)
     getAllPlans()
@@ -119,13 +124,11 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
   }
 
   const onFinish = (values) => {
-      const decoded = jwt_decode(loginState.token);
-      values.parentId = decoded.id;
+      const decoded = isRegister ? null : jwt_decode(loginState.token);
+      values.parentId = isRegister ? values.referralCode : decoded.id;
       values.language = i18n.language;
-      values.referrer = decoded.referrer;
 
-      createUser(values)
-      handlerMethod()
+      createUser(values);
   };
 
   const onFieldsChange = (fields, allFields) => {
@@ -202,21 +205,21 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
       >
         <Form.Item
           name="name"
-          label= {t("name")}
+          label= {isRegister? '': t("name")}
           rules={[{ required: true, message: `${t("errorName")}` , whitespace: true }]}
         >
-          <Input />
+          <Input placeholder={isRegister? t("name"):''}  />
         </Form.Item>
         <Form.Item
           name="lastname"
-          label={t("lastname")}
+          label={isRegister? '': t("lastname")}
           rules={[{ required: true, message: `${t("errorLastname")}`, whitespace: true }]}
         >
-          <Input />
+          <Input placeholder={isRegister? t("lastname"):''} />
         </Form.Item>
         <Form.Item
           name="email"
-          label={t("email")}
+          label={isRegister? '': t("email")}
           rules={[
             {
               type: 'email',
@@ -228,12 +231,12 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
             },
           ]}
         >
-          <Input />
+          <Input placeholder={isRegister? t("email"):''} />
         </Form.Item>
 
         <Form.Item
           name="password"
-          label={t("password")}
+          label={isRegister? '': t("password")}
           rules={[
             {
               required: true,
@@ -242,12 +245,12 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password placeholder={isRegister? t("password"):''}/>
         </Form.Item>
 
         <Form.Item
           name="confirm"
-          label={t("confirmPassword")}
+          label={isRegister? '':  t("confirmPassword")}
           dependencies={['password']}
           hasFeedback
           rules={[
@@ -265,21 +268,22 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
             }),
           ]}
         >
-          <Input.Password />
+          <Input.Password placeholder={isRegister? t("confirmPassword"):''}/>
         </Form.Item>
 
         <Form.Item
           name="address"
-          label={t("address")}
+          label={isRegister? '': t("address")}
           rules={[{ required: true, message: `${t("errorAddres")}`, whitespace: true}]}
         >
-          <Input />
+          <Input placeholder={isRegister? t("address"):''} />
         </Form.Item>
 
         <Form.Item
           name="country"
-          label={t("country")}
+          label={isRegister ? '': t("country")}
           rules={[{ required: true, message: `${t("errorAddres")}` }]}
+          style={isRegister ? { width: '100%' } :{ }}
         >
           <Select 
             showSearch
@@ -292,10 +296,12 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
           </Select>
         </Form.Item>
 
+      
         <Form.Item
           name="city"
-          label={t("city")}
+          label={isRegister ? '':t("city")}
           rules={[{ required: true, message: `${t("errorCity")}`  }]}
+          style={isRegister ? { width: '100%' } :{ }}
         >
           <Select 
             showSearch
@@ -310,59 +316,78 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
 
         <Form.Item
           name="phone"
-          label={t("phone")}
+          label={isRegister ? '': t("phone")}
           rules={[{ required: true, message: `${t("errorPhone")}` }]}
+          style={isRegister ? { width: '100%' } :{ }}
         >
-          <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+          <Input addonBefore={prefixSelector} placeholder={isRegister? t("phone"): ''} />
         </Form.Item>
 
         <Form.Item
           name="plan"
-          label={t("plan")}
+          label={isRegister ? '': t("plan")}
           rules={[{ required: true, message: `${t("errorPlan")}`  }]}
+          style={isRegister ? { width: '100%' } :{ }}
         >
           <Select placeholder={t("selectPlan")}>
             {plansState.plans.map((o, key ) => {
-              return <Option key={key} value={o.id}>{o.name}</Option>
+              return <Option key={key} value={o.Id}>{o.name}</Option>
             })}
           </Select>
         </Form.Item>
 
         <Form.Item
-          name="wallet"
-          label={t("wallet")}
-          rules={[{ required: true, message: `${t("walletError")}`, whitespace: false}]}
+        name="wallet"
+        label={isRegister ? '': t("wallet")}
+        rules={[{ required: true, message: `${t("walletError")}`, whitespace: false}]}
+        style={isRegister ? { width: '100%' } :{ }}
         >
-          <Input />
+          <Input placeholder={isRegister? t("wallet"): ''} />
         </Form.Item>
 
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error( `${t("errorAgreement")}` )),
-            },
-          ]}
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-          {t("iHaveRead")} <a href="">{t("agreement")}</a>
-          </Checkbox>
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-          {t("register")}
-          </Button>
-          <Button onClick={()=> handleCloseModalCancel()} >
-          {t("cancel")}
-          </Button>
-        </Form.Item>
+        {isRegister ? 
+         <Form.Item
+         name="referralCode"
+         rules={[{ required: true, message: `${t("referralCodeError")}`, whitespace: false}]}
+         style={isRegister ? { width: '100%' } :{ }}
+         >
+           <Input placeholder={t("referralCode")} />
+         </Form.Item> 
+         :
+         null}
+        
+        <div className='footerButtoms' >
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject(new Error( `${t("errorAgreement")}` )),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox>
+            {t("iHaveRead")} <a href="">{t("agreement")}</a>
+            </Checkbox>
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <WrapperAcctionButtons isRegister={isRegister}>
+              <Button type="primary" htmlType="submit">
+              {t("register")}
+              </Button>
+              <Button onClick={()=> isRegister ? navigate('/') : handleCloseModalCancel() } >
+                {isRegister ? t("goBack") : t("cancel")}
+              </Button>
+            </WrapperAcctionButtons>
+          </Form.Item>
+        </div>
       </Form>
       {openWarningModal && showConfirmClose()}
       {createUsers.userCreated  && showSuccessCreation()}
-      {(!createUsers.userCreated && createUsers.errorMessage !== '' )&& showErrorCreation()}
+      {(!createUsers.userCreated && createUsers.errorMessage !== '' ) && showErrorCreation()}
+      {createUsers.userCreated && handlerMethod()}
     </>
   )
 }

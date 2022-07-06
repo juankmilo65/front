@@ -34,5 +34,8 @@
   "warningModal": "Warning",
   "successUserCreation": "Denario created successfully",
   "wallet": "Wallet",
-  "walletError": "Please enter your wallet number!"
+  "walletError": "Please enter your wallet number!",
+  "goBack": "Go back",
+  "referralCode": "Referral Code",
+  "referralCodeError": "Please enter a referral code"
 }
