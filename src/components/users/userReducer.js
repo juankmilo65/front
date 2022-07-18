@@ -2,6 +2,7 @@ import actions from './userActions'
 
 const initState = {
     usersByFather: [],
+    total: 0,
     isLoading: false,
     errorMessage: ''
 };
@@ -19,7 +20,8 @@ const UserReducer = (state = initState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                usersByFather: payload,
+                usersByFather: payload.users,
+                total: payload.count
             };
         case actions.GET_USERS_CHILDREN_BY_FATHER_ID_ERROR:
             return {

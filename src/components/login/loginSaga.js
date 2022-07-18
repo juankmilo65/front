@@ -10,9 +10,10 @@ function* login(data) {
         if(token.isAxiosError){
             yield put(actions.loginError(token.response.data.error))
         }
-
-        yield put(actions.loginSuccess(token))
-    
+        else
+        {
+            yield put(actions.loginSuccess(token))
+        }
     }catch(error){
         throw error
     }

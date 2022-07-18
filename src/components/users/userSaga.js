@@ -9,7 +9,7 @@ function* getUserChildrenByFatherId (data) {
     const users = [];
     const result = yield call(services.getUserChildrenByFatherId , data.payload);
     
-    result.map(o => {
+    result.rows.map(o => {
       o.user.createdAt = o.user.createdAt.split('T')[0]
       o.user.updatedAt = o.user.updatedAt.split('T')[0]
       o.user.key =  key;
@@ -21,7 +21,11 @@ function* getUserChildrenByFatherId (data) {
         yield put(actions.getUserChildrenByFatherIdError(result.response.data.error))
     }
 
-    yield put(actions.getUserChildrenByFatherIdSuccess(users))
+    const finalObj =  {
+      users, 
+      count: result.count
+    }; 
+    yield put(actions.getUserChildrenByFatherIdSuccess(finalObj))
 
   }catch(error){
     throw error

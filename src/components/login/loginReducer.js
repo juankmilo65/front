@@ -24,6 +24,7 @@ const LogingReducer = (state = initState, action) => {
                 ...state,
                 isLoading: false,
                 token: payload,
+                errorMessage:''
             };
         case actions.LOGIN_ERROR:
             return {
