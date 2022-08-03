@@ -6,7 +6,5 @@
   "createdAt": "Fecha de registro",
   "updatedAt": "Fecha de actualización",
   "action": "Acciones",
-  "createDenario": "Crear Denario",
-  "totalRecordsStart": "Total",
-  "totalRecordsEnd": "registros"
+  "createDenario": "Crear Denario"
 }

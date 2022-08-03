@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-empty-pattern */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect } from 'react';
+import React, {memo, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
@@ -392,4 +392,4 @@ function CreateUser({handlerMethod, handlerChildCloseModal }) {
   )
 }
 
-export default CreateUser
+export default memo(CreateUser)

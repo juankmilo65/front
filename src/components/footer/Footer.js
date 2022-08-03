@@ -1,4 +1,4 @@
-import React, {useEffect}from 'react'
+import React, {memo, useEffect}from 'react'
 import { Layout } from 'antd';
 import { useTranslation } from "react-i18next"
 import i18next from 'i18next';
@@ -34,4 +34,4 @@ function Footer() {
     )
 }
 
-export default Footer
+export default memo(Footer)

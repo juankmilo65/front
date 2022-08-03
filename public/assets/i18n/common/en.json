@@ -1,5 +1,9 @@
 {
     "submit": "Submit",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "totalRecordsStart": "Total",
+    "totalRecordsEnd": "records"
+    
+
 }

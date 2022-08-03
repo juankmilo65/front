@@ -1,0 +1,10 @@
+{
+  "rol": "Rol",
+  "name": "Nombre",
+  "permissions": "Permisos",
+  "modules": "Modulos",
+  "actions": "Acciones",
+  "edit": "Editar",
+  "suspend": "Suspender",
+  "editRole": "Editar rol"
+}

@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useLocation } from "react-router-dom";
 import { Menu, Layout, Popover} from 'antd';
-import { PieChartOutlined, DesktopOutlined, ContainerOutlined, TeamOutlined } from '@ant-design/icons';
+import { PieChartOutlined, DesktopOutlined, ContainerOutlined, TeamOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import jwt_decode from "jwt-decode";
 import { useTranslation } from "react-i18next"
 
 import {Logo, Avatar } from './Layaout.styles';
-import './layaout.css'
-import Footer from '../footer/Footer'
-import Dashboard from '../dashboard/Dashboard'
-import Statistics from '../statistics/Statistics'
+import './layaout.css';
+import Footer from '../footer/Footer';
+import Dashboard from '../dashboard/Dashboard';
+import Statistics from '../statistics/Statistics';
 import Users from '../users/Users';
-import Error from '../error/Error'
-import MenuPopover from '../menuPopover/MenuPopover'
+import Roles from '../roles/Roles';
+import Error from '../error/Error';
+import MenuPopover from '../menuPopover/MenuPopover';
 
 const { Header, Content, Sider } = Layout;
 
@@ -34,6 +35,7 @@ function Layaout() {
             dashboard: () => <Dashboard/> ,
             users: () => <Users/>,
             statistics: () => <Statistics/>,
+            roles: () => <Roles/>,
             error: () => <Error/>
         };
 
@@ -71,6 +73,11 @@ function Layaout() {
                                 {t("statistics")}  
                             </Link> 
                         </Menu.Item>
+                        <Menu.Item key="4" icon={<UserSwitchOutlined />}>
+                            <Link  to='/roles'>
+                                {t("roles")}  
+                            </Link> 
+                        </Menu.Item>
                         <SubMenu key="sub1" icon={<ContainerOutlined />} title={t("reports")}>
                             <Menu.Item key="5">{t("myDenarios")} </Menu.Item>
                             <Menu.Item key="6">{t("donations")}</Menu.Item>     
@@ -93,4 +100,4 @@ function Layaout() {
     )
 }
 
-export default Layaout
+export default memo(Layaout)

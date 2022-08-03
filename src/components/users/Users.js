@@ -31,7 +31,7 @@ function Users() {
   
   const [loading, setLoading] = useState(false);
   const [wasCallCreated, setWasCallCreated] = useState(false);
-  const [filter, setFilter] = useState({ name: '', lastName: '', status: true, createdAt: '1990-01-01', updatedAt: '1990-01-01' });
+  const [filter] = useState({ name: '', lastName: '', status: true, createdAt: '1990-01-01', updatedAt: '1990-01-01' });
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10, showSizeChanger: true });
 
   const {getUserChildrenByFatherId } = bindActionCreators(userActions, dispapatch);
@@ -57,7 +57,6 @@ function Users() {
   }, [wasCallCreated])
 
   const refreshUsers = () => {
-    debugger
     if(!wasCallCreated){
       const decoded = jwt_decode(loginState.token);
       getUserChildrenByFatherId(decoded.id);

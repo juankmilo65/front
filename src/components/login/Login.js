@@ -1,4 +1,4 @@
-import React, {useEffect, Suspense} from 'react'
+import React, {memo, useEffect, Suspense} from 'react'
 import { bindActionCreators  } from 'redux'
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom";
@@ -90,4 +90,4 @@ function Login() {
   )
 }
 
-export default Login
+export default memo(Login)

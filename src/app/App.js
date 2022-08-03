@@ -26,6 +26,7 @@ function App() {
               <Route path="/dashboard" element={<Layaout/>} />
               <Route path="/users" element={<Layaout/>} />
               <Route path="/statistics" element={<Layaout/>} />
+              <Route path="/roles" element={<Layaout/>} />
         </Routes>
   );
 }

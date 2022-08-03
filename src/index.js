@@ -39,17 +39,17 @@ function AppWithCallbackAfterRender() {
   }, [createAntLang, i18n.language]);
 
   return (
+    <ConfigProvider locale={antaLang}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <Suspense fallback={null}>
             <Router> 
-              <ConfigProvider locale={antaLang}>
               <App />
-              </ConfigProvider>
             </Router>
           </Suspense>
         </PersistGate>
       </Provider>
+    </ConfigProvider>
   )
 }
 

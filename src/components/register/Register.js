@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom";
 import { Layout } from 'antd';
@@ -32,4 +32,4 @@ function Register() {
   )
 }
 
-export default Register
+export default memo(Register)

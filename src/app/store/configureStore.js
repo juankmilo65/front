@@ -8,6 +8,7 @@ import loginReduer from '../../components/login/loginReducer'
 import usersReduer from '../../components/users/userReducer'
 import createUsersReducer from '../../components/createUser/createUserReducer'
 import plansReducer from '../../components/plans/plansReducer'
+import rolesReducer from '../../components/roles/rolesReducer'
 import errorReducer from '../../components/error/errorReducer'
 import {rootSaga} from '../../utilities/mergeSagas'
 
@@ -28,7 +29,8 @@ export function configureStore() {
     error:errorReducer,
     users: usersReduer,
     createUsers: createUsersReducer,
-    plans: plansReducer
+    plans: plansReducer,
+    roles: rolesReducer
   });
 
   const persistedReducer = persistReducer(persistConfig, rootReducer)

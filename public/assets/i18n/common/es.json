@@ -1,5 +1,7 @@
 {
     "submit": "Enviar",
     "save": "Guardar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "totalRecordsStart": "Total",
+    "totalRecordsEnd": "registros"
 }

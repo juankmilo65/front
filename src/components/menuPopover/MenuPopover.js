@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { bindActionCreators  } from 'redux'
 import { Modal } from 'antd';
 import { useTranslation } from "react-i18next"
@@ -51,4 +51,4 @@ function MenuPopover() {
   )
 }
 
-export default MenuPopover
+export default memo(MenuPopover)
